@@ -45,13 +45,13 @@ externals = [
 
 2. Run gulp:
 
-	```bash
-	$ gulp
-	```
+```bash
+$ gulp
+```
 
 or
 
-	```bash
-	$ gulp compile
-	$ node app.js
-	```
+```bash
+$ gulp compile
+$ node app.js
+```

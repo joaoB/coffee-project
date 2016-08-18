@@ -8,28 +8,26 @@ methodOverride = require "method-override"
 bodyParser     = require "body-parser"
 socketio       = require "socket.io"
 errorHandler   = require "error-handler"
+net		   	   = require "net"
 
 log       = require "./lib/log"
 
 app       = express()
-server    = http.createServer app
+
 io        = socketio.listen server
 
 # collection of client sockets
 sockets = []
 
+domain 		= "localhost"
+port 		= 9001
 
-# websocket connection logic
-io.on "connection", (socket) ->
-	# add socket to client sockets
-	sockets.push socket
-	log.info "Socket connected, #{sockets.length} client(s) active"
-	
-	# disconnect logic
-	socket.on "disconnect", ->
-		# remove socket from client sockets
-		sockets.splice sockets.indexOf(socket), 1
-		log.info "Socket disconnected, #{sockets.length} client(s) active"
+
+server = net.createServer (socket) ->
+    console.log "Received connection from #{socket.remoteAddress}"
+    socket.write "Hello, World!\n"
+    socket.end()
+
 
 # express application middleware
 app
@@ -51,5 +49,5 @@ app
 		res.send "Welcome to the coffe project!"
 
 # start the server
-server.listen 3000
-log.info "Listening on 3000"
+server.listen port, domain
+log.info "Listening on " + port

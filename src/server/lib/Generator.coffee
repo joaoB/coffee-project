@@ -30,6 +30,14 @@ class Generator extends EventEmitter
 
 		@emit "stopped"
 
+		
+	generate: ->
+		data = _.chain @types
+			.map (type) => [type, @chance[type]() if @chance[type]]
+			.object()
+			.value()
+		data
+	
 	emitData: =>
 		clearTimeout @timeout
 

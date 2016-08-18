@@ -11,10 +11,14 @@ errorHandler   = require "error-handler"
 net		   	   = require "net"
 
 log       = require "./lib/log"
+Generator = require "./lib/Generator"
 
 app       = express()
 
 io        = socketio.listen server
+
+persons = new Generator [ "first", "last", "gender", "birthday", "age", "ssn"]
+
 
 # collection of client sockets
 sockets = []
@@ -25,7 +29,8 @@ port 		= 9001
 
 server = net.createServer (socket) ->
     console.log "Received connection from #{socket.remoteAddress}"
-    socket.write "Hello, World!\n"
+    p = persons.generate()
+    socket.write "Hello, World!\n" + JSON.stringify p
     socket.end()
 
 

@@ -31,7 +31,14 @@ server = net.createServer (socket) ->
     console.log "Received connection from #{socket.remoteAddress}"
     p = persons.generate()
     socket.write "Hello, World!\n" + JSON.stringify p
-    socket.end()
+	
+    socket.on 'data', (data) ->
+        console.log "-----------------"
+        console.log "#{socket.remoteAddress} sent: #{data}"
+        console.log "-----------------"
+        connections = server.getConnections (err, count) ->	
+            socket.write("There are " + count + " users active")
+            socket.end()
 
 
 # express application middleware

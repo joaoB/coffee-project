@@ -29,16 +29,16 @@ port 		= 9001
 
 server = net.createServer (socket) ->
     console.log "Received connection from #{socket.remoteAddress}"
-    p = persons.generate()
-    socket.write "Hello, World!\n" + JSON.stringify p
+    
+    # socket.write "Hello, World!\n" + JSON.stringify p
 	
     socket.on 'data', (data) ->
         console.log "-----------------"
         console.log "#{socket.remoteAddress} sent: #{data}"
         console.log "-----------------"
-        connections = server.getConnections (err, count) ->	
-            socket.write("There are " + count + " users active")
-            socket.end()
+        p = persons.generate()
+        socket.write(JSON.stringify p)
+        
 
 
 # express application middleware
